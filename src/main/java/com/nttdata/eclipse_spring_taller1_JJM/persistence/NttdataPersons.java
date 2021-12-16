@@ -100,7 +100,7 @@ public class NttdataPersons implements Serializable {
 		this.surname2 = surname2;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_Edifice")
 	public NttdataEdifice getEdifice() {
 		return edifice;

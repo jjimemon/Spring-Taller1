@@ -2,14 +2,16 @@ package com.nttdata.eclipse_spring_taller1_JJM.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
 import com.nttdata.eclipse_spring_taller1_JJM.persistence.NttdataPersons;
-import com.nttdata.eclipse_spring_taller1_JJM.persistence.NttdataPersonsDaoI;
+import com.nttdata.eclipse_spring_taller1_JJM.persistence.NttdataPersonsRepositoryI;
 
 /**
  * Proyecto Spring taller 1.
@@ -23,7 +25,7 @@ import com.nttdata.eclipse_spring_taller1_JJM.persistence.NttdataPersonsDaoI;
 public class NttdataPersonsManagementServiceImpl implements NttdataPersonsManagementServiceI {
 
 	@Autowired
-	private NttdataPersonsDaoI daoPerson;
+	private NttdataPersonsRepositoryI daoPerson;
 
 	@Override
 	@Transactional
@@ -32,19 +34,7 @@ public class NttdataPersonsManagementServiceImpl implements NttdataPersonsManage
 		if (newPerson != null && newPerson.getIdPersons() == null) {
 
 			// Insercción de una nueva persona.
-			daoPerson.insert(newPerson);
-		}
-
-	}
-
-	@Override
-	@Transactional
-	public void updatePerson(NttdataPersons updatedperson) {
-		// Verificación de nulidad y existencia.
-		if (updatedperson != null && updatedperson.getIdPersons() != null) {
-
-			// Actualización de la persona.
-			daoPerson.update(updatedperson);
+			daoPerson.save(newPerson);
 		}
 
 	}
@@ -63,15 +53,15 @@ public class NttdataPersonsManagementServiceImpl implements NttdataPersonsManage
 
 	@Override
 	@Transactional
-	public NttdataPersons searchById(Integer IDPerson) {
+	public Optional<NttdataPersons> findById(Integer IDPerson) {
 		// Resultado.
-		NttdataPersons person = null;
+		Optional<NttdataPersons> person = null;
 
 		// Verificación de nulidad.
 		if (IDPerson != null) {
 
 			// Obtención de la persona por ID.
-			person = daoPerson.searchById(IDPerson);
+			person = daoPerson.findById(IDPerson);
 		}
 
 		return person;
@@ -79,7 +69,18 @@ public class NttdataPersonsManagementServiceImpl implements NttdataPersonsManage
 
 	@Override
 	@Transactional
-	public List<NttdataPersons> searchByFullName(String name, String surname1, String surname2) {
+	public List<NttdataPersons> findAll() {
+		// Resultado.
+		List<NttdataPersons> personsList = new ArrayList<NttdataPersons>();
+
+		// Obtención de personas.
+		personsList = daoPerson.findAll();
+
+		return personsList;
+	}
+
+	@Override
+	public List<NttdataPersons> searchByNameAndSurname1AndSurname2(String name, String surname1, String surname2) {
 		// Resultado.
 		List<NttdataPersons> personsList = new ArrayList<NttdataPersons>();
 
@@ -87,20 +88,8 @@ public class NttdataPersonsManagementServiceImpl implements NttdataPersonsManage
 		if (StringUtils.hasText(name) && StringUtils.hasText(surname1) && StringUtils.hasText(surname2)) {
 
 			// Obtención de la persona por nombre completo.
-			personsList = daoPerson.searchByPersonFullName(name, surname1, surname2);
+			personsList = daoPerson.searchByNameAndSurname1AndSurname2(name, surname1, surname2);
 		}
-
-		return personsList;
-	}
-
-	@Override
-	@Transactional
-	public List<NttdataPersons> searchAll() {
-		// Resultado.
-		List<NttdataPersons> personsList = new ArrayList<NttdataPersons>();
-
-		// Obtención de personas.
-		personsList = daoPerson.searchAll();
 
 		return personsList;
 	}

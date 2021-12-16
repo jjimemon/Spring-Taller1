@@ -1,9 +1,13 @@
 package com.nttdata.eclipse_spring_taller1_JJM.services;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Repository;
 
 import com.nttdata.eclipse_spring_taller1_JJM.persistence.NttdataPlant;
 
+@Repository
 public interface NttdataPlantManagementServiceI {
 
 	/**
@@ -12,13 +16,6 @@ public interface NttdataPlantManagementServiceI {
 	 * @param newPlant
 	 */
 	public void insertNewPlant(final NttdataPlant newPlant);
-
-	/**
-	 * Actualiza una planta.
-	 * 
-	 * @param updatedPlant
-	 */
-	public void updateEdifice(final NttdataPlant updatedPlant);
 
 	/**
 	 * Elimina una planta existente.
@@ -32,12 +29,12 @@ public interface NttdataPlantManagementServiceI {
 	 * 
 	 * @param IDPlant
 	 */
-	public NttdataPlant searchById(final Integer IDPlant);
+	public Optional<NttdataPlant> findById(final Integer IDPlant);
 
 	/**
 	 * Obtiene todas las plantas existentes.
 	 * 
 	 * @return List<NttdataPlant>
 	 */
-	public List<NttdataPlant> searchAll();
+	public List<NttdataPlant> findAll();
 }

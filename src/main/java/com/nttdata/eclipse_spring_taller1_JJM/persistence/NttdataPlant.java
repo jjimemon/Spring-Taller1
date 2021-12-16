@@ -64,7 +64,7 @@ public class NttdataPlant implements Serializable {
 		this.numPlant = numPlant;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_edifice")
 	public NttdataEdifice getEdifice() {
 		return edifice;

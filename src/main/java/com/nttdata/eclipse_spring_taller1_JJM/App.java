@@ -80,11 +80,8 @@ public class App implements CommandLineRunner {
 		plantService.insertNewPlant(plant1);
 		plantService.insertNewPlant(plant2);
 
-		// Busca en el edificio una persona en concreta y la devuelve
-		System.out.println(edificeService.searchByFullName("Javier", "Jimenez", "Montesino", edifice1));
-
-		// Busca todas las personas del edificio
-		System.out.println(edificeService.searchAllPeopleEdifice(edifice1));
+		// Busca una persona en concreta y la devuelve
+		System.out.println(personService.searchByNameAndSurname1AndSurname2("Javier", "Jimenez", "Montesino"));
 
 	}
 }

@@ -7,10 +7,9 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import com.nttdata.eclipse_spring_taller1_JJM.persistence.NttdataEdifice;
-import com.nttdata.eclipse_spring_taller1_JJM.persistence.NttdataEdificeDaoI;
+import com.nttdata.eclipse_spring_taller1_JJM.persistence.NttdataEdificeRepositoryI;
 import com.nttdata.eclipse_spring_taller1_JJM.persistence.NttdataPersons;
 
 /**
@@ -25,7 +24,7 @@ import com.nttdata.eclipse_spring_taller1_JJM.persistence.NttdataPersons;
 public class NttdataEdificeManagementServiceImpl implements NttdataEdificeManagementServiceI {
 
 	@Autowired
-	private NttdataEdificeDaoI daoEdifice;
+	private NttdataEdificeRepositoryI daoEdifice;
 
 	@Override
 	@Transactional
@@ -34,19 +33,7 @@ public class NttdataEdificeManagementServiceImpl implements NttdataEdificeManage
 		if (newEdifice != null && newEdifice.getIdEdifice() == null) {
 
 			// Insercción del nuevo edificio.
-			daoEdifice.insert(newEdifice);
-		}
-
-	}
-
-	@Override
-	@Transactional
-	public void updateEdifice(NttdataEdifice updatedEdifice) {
-		// Verificación de nulidad y existencia.
-		if (updatedEdifice != null && updatedEdifice.getIdEdifice() != null) {
-
-			// Actualización del nuevo edificio.
-			daoEdifice.update(updatedEdifice);
+			daoEdifice.save(newEdifice);
 		}
 
 	}
@@ -64,7 +51,7 @@ public class NttdataEdificeManagementServiceImpl implements NttdataEdificeManage
 
 	@Override
 	@Transactional
-	public NttdataEdifice searchById(Integer IDEdifice) {
+	public NttdataEdifice findByIdEdifice(Integer IDEdifice) {
 		// Resultado.
 		NttdataEdifice edifice = null;
 
@@ -72,7 +59,7 @@ public class NttdataEdificeManagementServiceImpl implements NttdataEdificeManage
 		if (IDEdifice != null) {
 
 			// Obtención del edificio por ID.
-			edifice = daoEdifice.searchById(IDEdifice);
+			edifice = daoEdifice.findByIdEdifice(IDEdifice);
 		}
 
 		return edifice;
@@ -80,30 +67,14 @@ public class NttdataEdificeManagementServiceImpl implements NttdataEdificeManage
 
 	@Override
 	@Transactional
-	public List<NttdataEdifice> searchAll() {
+	public List<NttdataEdifice> findAll() {
 		// Resultado.
 		List<NttdataEdifice> edificeList = new ArrayList<NttdataEdifice>();
 
 		// Obtención del edificio.
-		edificeList = daoEdifice.searchAll();
+		edificeList = daoEdifice.findAll();
 
 		return edificeList;
-	}
-
-	@Override
-	public List<NttdataPersons> searchByFullName(String name, String surname1, String surname2,
-			NttdataEdifice edifice) {
-		// Resultado.
-		List<NttdataPersons> personsList = new ArrayList<NttdataPersons>();
-
-		// Verificación de nulidad.
-		if (StringUtils.hasText(name) && StringUtils.hasText(surname1) && StringUtils.hasText(surname2)) {
-
-			// Obtención de la persona por nombre completo.
-			personsList = daoEdifice.searchByPersonFullName(name, surname1, surname2, edifice);
-		}
-
-		return personsList;
 	}
 
 	@Override
@@ -112,7 +83,7 @@ public class NttdataEdificeManagementServiceImpl implements NttdataEdificeManage
 		List<NttdataPersons> personsList = new ArrayList<NttdataPersons>();
 
 		// Obtención de las personas del edificio en concreto.
-		personsList = daoEdifice.searchAllPeopleEdifice(edifice);
+		// personsList = daoEdifice.searchAllPeopleEdifice(edifice);
 
 		return personsList;
 	}

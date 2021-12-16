@@ -69,7 +69,7 @@ public class NttdataEdifice implements Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "edifice")
+	@OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, mappedBy = "edifice")
 	public List<NttdataPlant> getPlantList() {
 		return plantList;
 	}
@@ -78,7 +78,7 @@ public class NttdataEdifice implements Serializable {
 		this.plantList = plantList;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "edifice")
+	@OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, mappedBy = "edifice")
 	public List<NttdataPersons> getPersonList() {
 		return personList;
 	}

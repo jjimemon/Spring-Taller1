@@ -2,6 +2,7 @@ package com.nttdata.eclipse_spring_taller1_JJM.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nttdata.eclipse_spring_taller1_JJM.persistence.NttdataPlant;
-import com.nttdata.eclipse_spring_taller1_JJM.persistence.NttdataPlantDaoI;
+import com.nttdata.eclipse_spring_taller1_JJM.persistence.NttdataPlantRepositoryI;
 
 /**
  * Proyecto Spring taller 1.
@@ -23,7 +24,7 @@ import com.nttdata.eclipse_spring_taller1_JJM.persistence.NttdataPlantDaoI;
 public class NttdataPlantManagementServiceImpl implements NttdataPlantManagementServiceI {
 
 	@Autowired
-	private NttdataPlantDaoI daoPlant;
+	private NttdataPlantRepositoryI daoPlant;
 
 	@Override
 	@Transactional
@@ -32,19 +33,7 @@ public class NttdataPlantManagementServiceImpl implements NttdataPlantManagement
 		if (newPlant != null && newPlant.getIdPlant() == null) {
 
 			// Insercción del nuevo planta.
-			daoPlant.insert(newPlant);
-		}
-
-	}
-
-	@Override
-	@Transactional
-	public void updateEdifice(NttdataPlant updatedPlant) {
-		// Verificación de nulidad y existencia.
-		if (updatedPlant != null && updatedPlant.getIdPlant() != null) {
-
-			// Actualización de la planta.
-			daoPlant.update(updatedPlant);
+			daoPlant.save(newPlant);
 		}
 
 	}
@@ -63,15 +52,15 @@ public class NttdataPlantManagementServiceImpl implements NttdataPlantManagement
 
 	@Override
 	@Transactional
-	public NttdataPlant searchById(Integer IDPlant) {
+	public Optional<NttdataPlant> findById(Integer IDPlant) {
 		// Resultado.
-		NttdataPlant plant = null;
+		Optional<NttdataPlant> plant = null;
 
 		// Verificación de nulidad.
 		if (IDPlant != null) {
 
 			// Obtención de la planta por ID.
-			plant = daoPlant.searchById(IDPlant);
+			plant = daoPlant.findById(IDPlant);
 		}
 
 		return plant;
@@ -79,12 +68,12 @@ public class NttdataPlantManagementServiceImpl implements NttdataPlantManagement
 
 	@Override
 	@Transactional
-	public List<NttdataPlant> searchAll() {
+	public List<NttdataPlant> findAll() {
 		// Resultado.
 		List<NttdataPlant> plantList = new ArrayList<NttdataPlant>();
 
 		// Obtención de todas las plantas.
-		plantList = daoPlant.searchAll();
+		plantList = daoPlant.findAll();
 
 		return plantList;
 	}

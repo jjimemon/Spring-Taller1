@@ -1,6 +1,9 @@
 package com.nttdata.eclipse_spring_taller1_JJM.services;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Repository;
 
 import com.nttdata.eclipse_spring_taller1_JJM.persistence.NttdataPersons;
 
@@ -12,6 +15,7 @@ import com.nttdata.eclipse_spring_taller1_JJM.persistence.NttdataPersons;
  * @author Javier Jiménez Montesinos.
  *
  */
+@Repository
 public interface NttdataPersonsManagementServiceI {
 
 	/**
@@ -20,13 +24,6 @@ public interface NttdataPersonsManagementServiceI {
 	 * @param newPerson
 	 */
 	public void insertNewPerson(final NttdataPersons newPerson);
-
-	/**
-	 * Actualiza una persona existente.
-	 * 
-	 * @param updatedperson
-	 */
-	public void updatePerson(final NttdataPersons updatedperson);
 
 	/**
 	 * Elimina una persona existente.
@@ -40,7 +37,14 @@ public interface NttdataPersonsManagementServiceI {
 	 * 
 	 * @param IDPerson
 	 */
-	public NttdataPersons searchById(final Integer IDPerson);
+	public Optional<NttdataPersons> findById(final Integer IDPerson);
+
+	/**
+	 * Obtiene todas las personas existentes.
+	 * 
+	 * @return List<NttdataPersons>
+	 */
+	public List<NttdataPersons> findAll();
 
 	/**
 	 * Obtiene una persona por su nombre completo.
@@ -48,15 +52,10 @@ public interface NttdataPersonsManagementServiceI {
 	 * @param name
 	 * @param surname1
 	 * @param surname2
+	 * @param edifice
 	 * @return List<NttdataPersons>
 	 */
-	public List<NttdataPersons> searchByFullName(final String name, final String surname1, final String surname2);
-
-	/**
-	 * Obtiene todas las personas existentes.
-	 * 
-	 * @return List<NttdataPersons>
-	 */
-	public List<NttdataPersons> searchAll();
+	public List<NttdataPersons> searchByNameAndSurname1AndSurname2(final String name, final String surname1,
+			final String surname2);
 
 }
